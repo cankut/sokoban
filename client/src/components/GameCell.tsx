@@ -1,8 +1,8 @@
 import { type CellType } from '@/lib/sokoban';
 import crateImage from '@assets/generated_images/Wooden_crate_game_sprite_260368cd.png';
-import wallImage from '@assets/generated_images/Brick_wall_texture_tile_b4119e29.png';
-import playerImage from '@assets/generated_images/Player_character_sprite_4a19ceca.png';
-import goalImage from '@assets/generated_images/Goal_marker_sprite_cf2b3bef.png';
+import wallImage from '@assets/generated_images/Red_brick_wall_texture_914de9ae.png';
+import playerImage from '@assets/generated_images/Simple_worker_character_sprite_03512fbb.png';
+import goalImage from '@assets/generated_images/Soft_goal_marker_dot_9be4d70b.png';
 
 interface GameCellProps {
   type: CellType;
