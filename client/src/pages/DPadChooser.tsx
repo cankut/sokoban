@@ -4,6 +4,14 @@ import { Button } from '@/components/ui/button';
 type Variant = 'compact' | 'big-cross' | 'circular';
 
 function Preview({ variant }: { variant: Variant }) {
+  const [activeQuarter, setActiveQuarter] = React.useState<number | null>(null);
+
+  const handleQuarterClick = (i: number) => {
+    setActiveQuarter(i);
+    // brief visual effect then reset
+    window.setTimeout(() => setActiveQuarter(null), 200);
+  };
+
   if (variant === 'compact') {
     return (
       <div className="inline-grid grid-cols-3 gap-2 items-center justify-center p-4">
@@ -54,15 +62,19 @@ function Preview({ variant }: { variant: Variant }) {
             const ey = cy + r * Math.sin(endRad);
             const d = `M ${cx} ${cy} L ${sx} ${sy} A ${r} ${r} 0 0 1 ${ex} ${ey} Z`;
             const color = '#e5e7eb'; // unified light gray for all quarters
+            const isActive = (i === activeQuarter);
+            const transform = isActive ? 'scale(1.03)' : 'scale(1)';
             return (
               <path
                 key={i}
                 d={d}
-                fill={color}
+                fill={isActive ? '#d1d5db' : color}
                 stroke="#d1d5db"
                 strokeWidth={0.8}
                 strokeLinejoin="round"
                 opacity="1"
+                style={{ transformOrigin: '72px 72px', transform, transition: 'transform 160ms ease, fill 160ms ease', cursor: 'pointer' }}
+                onClick={() => handleQuarterClick(i)}
               />
             );
           })
