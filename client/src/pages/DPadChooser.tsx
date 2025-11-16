@@ -35,12 +35,55 @@ function Preview({ variant }: { variant: Variant }) {
   }
 
   return (
-    <div className="relative w-36 h-36 p-4">
-      <div className="absolute left-1/2 -translate-x-1/2 top-0 w-12 h-12 bg-surface flex items-center justify-center rounded">▲</div>
-      <div className="absolute top-1/2 -translate-y-1/2 left-0 w-12 h-12 bg-surface flex items-center justify-center rounded">◀</div>
-      <div className="absolute top-1/2 -translate-y-1/2 right-0 w-12 h-12 bg-surface flex items-center justify-center rounded">▶</div>
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-12 h-12 bg-surface flex items-center justify-center rounded">▼</div>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-muted flex items-center justify-center">OK</div>
+    <div className="p-4">
+      <svg width="144" height="144" viewBox="0 0 144 144" xmlns="http://www.w3.org/2000/svg">
+        {/* big outer circle */}
+        <circle cx="72" cy="72" r="64" fill="#f3f4f6" stroke="#e5e7eb" strokeWidth="2" />
+
+        {/* quarters rotated 45deg: sectors at 45,135,225,315 */}
+        {
+          [45, 135, 225, 315].map((startAngle, i) => {
+            const cx = 72;
+            const cy = 72;
+            const r = 64;
+            const startRad = (startAngle * Math.PI) / 180;
+            const endRad = ((startAngle + 90) * Math.PI) / 180;
+            const sx = cx + r * Math.cos(startRad);
+            const sy = cy + r * Math.sin(startRad);
+            const ex = cx + r * Math.cos(endRad);
+            const ey = cy + r * Math.sin(endRad);
+            const d = `M ${cx} ${cy} L ${sx} ${sy} A ${r} ${r} 0 0 1 ${ex} ${ey} Z`;
+            const colors = ['#fee2e2', '#ecfeff', '#eef2ff', '#fef9c3'];
+            return <path key={i} d={d} fill={colors[i % colors.length]} stroke="none" opacity="0.9" />;
+          })
+        }
+
+        {/* arrows placed near mid-angle of each sector */}
+        {
+          [45, 135, 225, 315].map((startAngle, i) => {
+            const mid = startAngle + 45;
+            const midRad = (mid * Math.PI) / 180;
+            const cx = 72;
+            const cy = 72;
+            const rTip = 36; // distance for arrow tip from center
+            const rBase = 24;
+            const tipX = cx + rTip * Math.cos(midRad);
+            const tipY = cy + rTip * Math.sin(midRad);
+            // base left/right rotated perpendicular
+            const perpRad = midRad + Math.PI / 2;
+            const blX = cx + rBase * Math.cos(midRad) + 8 * Math.cos(perpRad);
+            const blY = cy + rBase * Math.sin(midRad) + 8 * Math.sin(perpRad);
+            const brX = cx + rBase * Math.cos(midRad) - 8 * Math.cos(perpRad);
+            const brY = cy + rBase * Math.sin(midRad) - 8 * Math.sin(perpRad);
+            const points = `${tipX},${tipY} ${blX},${blY} ${brX},${brY}`;
+            return <polygon key={`arrow-${i}`} points={points} fill="#0f172a" opacity="0.9" />;
+          })
+        }
+
+        {/* center OK circle */}
+        <circle cx="72" cy="72" r="18" fill="#0f172a" />
+        <text x="72" y="78" fontSize="10" fontFamily="Arial, sans-serif" fill="#fff" textAnchor="middle">OK</text>
+      </svg>
     </div>
   );
 }
