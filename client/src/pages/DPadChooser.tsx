@@ -98,14 +98,14 @@ function Preview({ variant }: { variant: Variant }) {
             const midRad = (mid * Math.PI) / 180;
             const cx = 72;
             const cy = 72;
-            // scale arrows to ~80% of previous size for improved spacing
-            const rTip = 45; // ~80% of 56
-            const rBase = 35; // ~80% of 44
+            // keep arrow size but move both tip and base outward by +10px
+            const rTip = 55; // moved outward from 45 -> 55
+            const rBase = 45; // moved outward from 35 -> 45
             const tipX = cx + rTip * Math.cos(midRad);
             const tipY = cy + rTip * Math.sin(midRad);
             // base left/right rotated perpendicular
             const perpRad = midRad + Math.PI / 2;
-            const perpOffset = 10; // ~80% of 12
+            const perpOffset = 10; // preserve triangle width
             const blX = cx + rBase * Math.cos(midRad) + perpOffset * Math.cos(perpRad);
             const blY = cy + rBase * Math.sin(midRad) + perpOffset * Math.sin(perpRad);
             const brX = cx + rBase * Math.cos(midRad) - perpOffset * Math.cos(perpRad);
