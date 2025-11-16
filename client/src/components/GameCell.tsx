@@ -2,7 +2,7 @@ import { type CellType } from '@/lib/sokoban';
 import crateImage from '@assets/generated_images/Wooden_crate_game_sprite_260368cd.png';
 import wallImage from '@assets/generated_images/Red_brick_wall_texture_914de9ae.png';
 import playerImage from '@assets/generated_images/Large_worker_character_sprite_3ba4e720.png';
-import goalImage from '@assets/generated_images/Soft_goal_marker_dot_9be4d70b.png';
+import { GoalMarkerOption2 } from './GoalMarkerOptions';
 
 interface GameCellProps {
   type: CellType;
@@ -16,7 +16,7 @@ export default function GameCell({ type }: GameCellProps) {
       case 'floor':
         return null;
       case 'goal':
-        return <img src={goalImage} alt="Goal" className="w-1/2 h-1/2 object-contain" />;
+        return <GoalMarkerOption2 />;
       case 'box':
         return <img src={crateImage} alt="Box" className="w-3/4 h-3/4 object-contain" />;
       case 'player':
@@ -24,14 +24,18 @@ export default function GameCell({ type }: GameCellProps) {
       case 'box-on-goal':
         return (
           <>
-            <img src={goalImage} alt="Goal" className="absolute w-1/2 h-1/2 object-contain z-0" />
+            <div className="absolute z-0">
+              <GoalMarkerOption2 />
+            </div>
             <img src={crateImage} alt="Box" className="w-3/4 h-3/4 object-contain relative z-10" />
           </>
         );
       case 'player-on-goal':
         return (
           <>
-            <img src={goalImage} alt="Goal" className="absolute w-1/2 h-1/2 object-contain z-0" />
+            <div className="absolute z-0">
+              <GoalMarkerOption2 />
+            </div>
             <img src={playerImage} alt="Player" className="w-full h-full object-contain relative z-10" />
           </>
         );
