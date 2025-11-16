@@ -24,15 +24,15 @@ export default function GameCell({ type }: GameCellProps) {
       case 'box-on-goal':
         return (
           <>
-            <img src={goalImage} alt="Goal" className="absolute w-1/2 h-1/2 object-contain" />
-            <img src={crateImage} alt="Box" className="w-3/4 h-3/4 object-contain" />
+            <img src={goalImage} alt="Goal" className="absolute w-1/2 h-1/2 object-contain z-0" />
+            <img src={crateImage} alt="Box" className="w-3/4 h-3/4 object-contain relative z-10" />
           </>
         );
       case 'player-on-goal':
         return (
           <>
-            <img src={goalImage} alt="Goal" className="absolute w-1/2 h-1/2 object-contain" />
-            <img src={playerImage} alt="Player" className="w-full h-full object-contain" />
+            <img src={goalImage} alt="Goal" className="absolute w-1/2 h-1/2 object-contain z-0" />
+            <img src={playerImage} alt="Player" className="w-full h-full object-contain relative z-10" />
           </>
         );
       default:
