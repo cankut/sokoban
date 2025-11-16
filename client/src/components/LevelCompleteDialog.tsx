@@ -40,13 +40,15 @@ export default function LevelCompleteDialog({
           <DialogTitle className="text-center text-2xl">
             Level Complete!
           </DialogTitle>
-          <DialogDescription className="text-center space-y-2">
-            <p className="text-lg font-semibold text-foreground">
-              {levelName}
-            </p>
-            <p className="text-muted-foreground">
-              Completed in <span className="font-bold text-foreground">{moves}</span> moves
-            </p>
+          <DialogDescription asChild>
+            <div className="text-center space-y-2">
+              <p className="text-lg font-semibold text-foreground">
+                {levelName}
+              </p>
+              <p className="text-muted-foreground">
+                Completed in <span className="font-bold text-foreground">{moves}</span> moves
+              </p>
+            </div>
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex-col sm:flex-col gap-2">
