@@ -53,8 +53,41 @@ function Preview({ variant }: { variant: Variant }) {
             const ex = cx + r * Math.cos(endRad);
             const ey = cy + r * Math.sin(endRad);
             const d = `M ${cx} ${cy} L ${sx} ${sy} A ${r} ${r} 0 0 1 ${ex} ${ey} Z`;
-            const colors = ['#fee2e2', '#ecfeff', '#eef2ff', '#fef9c3'];
-            return <path key={i} d={d} fill={colors[i % colors.length]} stroke="none" opacity="0.9" />;
+            const color = '#e5e7eb'; // unified light gray for all quarters
+            return (
+              <path
+                key={i}
+                d={d}
+                fill={color}
+                stroke="#d1d5db"
+                strokeWidth={0.8}
+                strokeLinejoin="round"
+                opacity="1"
+              />
+            );
+          })
+        }
+
+        {/* radial separators (center to outer radius) for sharper borders between quarters */}
+        {
+          [45, 135, 225, 315].map((angle, i) => {
+            const cx = 72;
+            const cy = 72;
+            const r = 64;
+            const rad = (angle * Math.PI) / 180;
+            const x = cx + r * Math.cos(rad);
+            const y = cy + r * Math.sin(rad);
+            return (
+              <line
+                key={`sep-${i}`}
+                x1={cx}
+                y1={cy}
+                x2={x}
+                y2={y}
+                stroke="#d1d5db"
+                strokeWidth={0.8}
+              />
+            );
           })
         }
 
@@ -65,8 +98,8 @@ function Preview({ variant }: { variant: Variant }) {
             const midRad = (mid * Math.PI) / 180;
             const cx = 72;
             const cy = 72;
-            const rTip = 36; // distance for arrow tip from center
-            const rBase = 24;
+            const rTip = 48; // distance for arrow tip from center (moved farther out)
+            const rBase = 34; // base of triangle moved outward accordingly
             const tipX = cx + rTip * Math.cos(midRad);
             const tipY = cy + rTip * Math.sin(midRad);
             // base left/right rotated perpendicular
@@ -76,13 +109,16 @@ function Preview({ variant }: { variant: Variant }) {
             const brX = cx + rBase * Math.cos(midRad) - 8 * Math.cos(perpRad);
             const brY = cy + rBase * Math.sin(midRad) - 8 * Math.sin(perpRad);
             const points = `${tipX},${tipY} ${blX},${blY} ${brX},${brY}`;
-            return <polygon key={`arrow-${i}`} points={points} fill="#0f172a" opacity="0.9" />;
+            return <polygon key={`arrow-${i}`} points={points} fill="#0f172a" opacity="0.95" />;
           })
         }
 
         {/* center OK circle */}
         <circle cx="72" cy="72" r="18" fill="#0f172a" />
-        <text x="72" y="78" fontSize="10" fontFamily="Arial, sans-serif" fill="#fff" textAnchor="middle">OK</text>
+        {/* use a translated group so text is exactly centered at the circle's origin */}
+        <g transform="translate(72,72)">
+          <text x="0" y="0" fontSize="11" fontFamily="Arial, sans-serif" fill="#fff" textAnchor="middle" dominantBaseline="central" alignmentBaseline="central" fontWeight="600">OK</text>
+        </g>
       </svg>
     </div>
   );
