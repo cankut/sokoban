@@ -48,7 +48,7 @@ function Preview({ variant }: { variant: Variant }) {
         {/* big outer circle */}
         <circle cx="72" cy="72" r="64" fill="#f3f4f6" stroke="#e5e7eb" strokeWidth="2" />
 
-        {/* quarters rotated 45deg: sectors at 45,135,225,315 */}
+        {/* quarters rotated 45deg: sectors at 45,135,225,315 with arrows and separators grouped for unified click handling */}
         {
           [45, 135, 225, 315].map((startAngle, i) => {
             const cx = 72;
@@ -62,68 +62,63 @@ function Preview({ variant }: { variant: Variant }) {
             const ey = cy + r * Math.sin(endRad);
             const d = `M ${cx} ${cy} L ${sx} ${sy} A ${r} ${r} 0 0 1 ${ex} ${ey} Z`;
             const color = '#e5e7eb'; // unified light gray for all quarters
-            const isActive = (i === activeQuarter);
-            const transform = isActive ? 'scale(1.03)' : 'scale(1)';
-            return (
-              <path
-                key={i}
-                d={d}
-                fill={isActive ? '#d1d5db' : color}
-                stroke="#d1d5db"
-                strokeWidth={0.8}
-                strokeLinejoin="round"
-                opacity="1"
-                style={{ transformOrigin: '72px 72px', transform, transition: 'transform 160ms ease, fill 160ms ease', cursor: 'pointer' }}
-                onClick={() => handleQuarterClick(i)}
-              />
-            );
-          })
-        }
 
-        {/* radial separators (center to outer radius) for sharper borders between quarters */}
-        {
-          [45, 135, 225, 315].map((angle, i) => {
-            const cx = 72;
-            const cy = 72;
-            const r = 64;
-            const rad = (angle * Math.PI) / 180;
-            const x = cx + r * Math.cos(rad);
-            const y = cy + r * Math.sin(rad);
-            return (
-              <line
-                key={`sep-${i}`}
-                x1={cx}
-                y1={cy}
-                x2={x}
-                y2={y}
-                stroke="#d1d5db"
-                strokeWidth={0.8}
-              />
-            );
-          })
-        }
-
-        {/* arrows placed near mid-angle of each sector */}
-        {
-          [45, 135, 225, 315].map((startAngle, i) => {
+            // arrow calculation
             const mid = startAngle + 45;
             const midRad = (mid * Math.PI) / 180;
-            const cx = 72;
-            const cy = 72;
-            // keep arrow size but move both tip and base outward by +10px
-            const rTip = 55; // moved outward from 45 -> 55
-            const rBase = 45; // moved outward from 35 -> 45
+            const rTip = 55;
+            const rBase = 45;
             const tipX = cx + rTip * Math.cos(midRad);
             const tipY = cy + rTip * Math.sin(midRad);
-            // base left/right rotated perpendicular
             const perpRad = midRad + Math.PI / 2;
-            const perpOffset = 10; // preserve triangle width
+            const perpOffset = 10;
             const blX = cx + rBase * Math.cos(midRad) + perpOffset * Math.cos(perpRad);
             const blY = cy + rBase * Math.sin(midRad) + perpOffset * Math.sin(perpRad);
             const brX = cx + rBase * Math.cos(midRad) - perpOffset * Math.cos(perpRad);
             const brY = cy + rBase * Math.sin(midRad) - perpOffset * Math.sin(perpRad);
-            const points = `${tipX},${tipY} ${blX},${blY} ${brX},${brY}`;
-            return <polygon key={`arrow-${i}`} points={points} fill="#0f172a" opacity="0.95" />;
+            const arrowPoints = `${tipX},${tipY} ${blX},${blY} ${brX},${brY}`;
+
+            // separator line
+            const angle = startAngle;
+            const rad = (angle * Math.PI) / 180;
+            const sepX = cx + r * Math.cos(rad);
+            const sepY = cy + r * Math.sin(rad);
+
+            const isActive = (i === activeQuarter);
+            // button-like effect: scale down when active, opacity shift
+            const scale = isActive ? 0.95 : 1;
+
+            return (
+              <g
+                key={`quarter-group-${i}`}
+                style={{
+                  transformOrigin: '72px 72px',
+                  transform: `scale(${scale})`,
+                  transition: 'transform 100ms ease, opacity 100ms ease',
+                  cursor: 'pointer',
+                  opacity: isActive ? 0.8 : 1,
+                }}
+                onClick={() => handleQuarterClick(i)}
+              >
+                <path
+                  d={d}
+                  fill={color}
+                  stroke="#d1d5db"
+                  strokeWidth={0.8}
+                  strokeLinejoin="round"
+                />
+                <line
+                  x1={cx}
+                  y1={cy}
+                  x2={sepX}
+                  y2={sepY}
+                  stroke="#d1d5db"
+                  strokeWidth={0.8}
+                  pointerEvents="none"
+                />
+                <polygon points={arrowPoints} fill="#0f172a" opacity="0.95" pointerEvents="none" />
+              </g>
+            );
           })
         }
 
