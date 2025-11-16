@@ -31,12 +31,12 @@ export default function GameControls({
     window.setTimeout(() => setActiveQuarter(null), 200);
   };
 
-  // map quarters to move directions
+  // map quarters to move directions (quarters rotated at 45°, 135°, 225°, 315°)
   const directions = [
-    { dx: 0, dy: -1 }, // up (45°)
-    { dx: 1, dy: -1 }, // up-right (135°)
-    { dx: 1, dy: 0 },  // right (225°)
-    { dx: 0, dy: 1 },  // down (315°)
+    { dx: 0, dy: 1 },  // down (45°)
+    { dx: -1, dy: 0 }, // left (135°)
+    { dx: 0, dy: -1 }, // up (225°)
+    { dx: 1, dy: 0 },  // right (315°)
   ];
 
   return (
