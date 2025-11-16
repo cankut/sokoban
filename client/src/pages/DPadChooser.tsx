@@ -98,16 +98,17 @@ function Preview({ variant }: { variant: Variant }) {
             const midRad = (mid * Math.PI) / 180;
             const cx = 72;
             const cy = 72;
-            const rTip = 48; // distance for arrow tip from center (moved farther out)
-            const rBase = 34; // base of triangle moved outward accordingly
+            const rTip = 56; // distance for arrow tip from center (moved farther out)
+            const rBase = 44; // base of triangle moved outward accordingly
             const tipX = cx + rTip * Math.cos(midRad);
             const tipY = cy + rTip * Math.sin(midRad);
             // base left/right rotated perpendicular
             const perpRad = midRad + Math.PI / 2;
-            const blX = cx + rBase * Math.cos(midRad) + 8 * Math.cos(perpRad);
-            const blY = cy + rBase * Math.sin(midRad) + 8 * Math.sin(perpRad);
-            const brX = cx + rBase * Math.cos(midRad) - 8 * Math.cos(perpRad);
-            const brY = cy + rBase * Math.sin(midRad) - 8 * Math.sin(perpRad);
+            const perpOffset = 12;
+            const blX = cx + rBase * Math.cos(midRad) + perpOffset * Math.cos(perpRad);
+            const blY = cy + rBase * Math.sin(midRad) + perpOffset * Math.sin(perpRad);
+            const brX = cx + rBase * Math.cos(midRad) - perpOffset * Math.cos(perpRad);
+            const brY = cy + rBase * Math.sin(midRad) - perpOffset * Math.sin(perpRad);
             const points = `${tipX},${tipY} ${blX},${blY} ${brX},${brY}`;
             return <polygon key={`arrow-${i}`} points={points} fill="#0f172a" opacity="0.95" />;
           })
