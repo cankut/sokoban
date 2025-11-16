@@ -9,6 +9,7 @@ interface GameControlsProps {
   canUndo: boolean;
   canGoPrevious: boolean;
   canGoNext: boolean;
+  onMove?: (dir: { dx: number; dy: number }) => void;
 }
 
 export default function GameControls({
@@ -19,6 +20,7 @@ export default function GameControls({
   canUndo,
   canGoPrevious,
   canGoNext,
+  onMove,
 }: GameControlsProps) {
   return (
     <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
@@ -65,6 +67,64 @@ export default function GameControls({
           <ChevronRight className="w-4 h-4 ml-2" />
         </Button>
       </div>
+      {/* Mobile D-pad: visible only on small screens */}
+      {onMove && (
+        <div className="sm:hidden mt-4">
+          <div className="inline-grid grid-cols-3 gap-2 items-center justify-center">
+            <div />
+            <div>
+              <Button
+                onClick={() => onMove({ dx: 0, dy: -1 })}
+                variant="outline"
+                size="default"
+                aria-label="Move up"
+                className="w-12 h-12"
+              >
+                ▲
+              </Button>
+            </div>
+            <div />
+
+            <div>
+              <Button
+                onClick={() => onMove({ dx: -1, dy: 0 })}
+                variant="outline"
+                size="default"
+                aria-label="Move left"
+                className="w-12 h-12"
+              >
+                ◀
+              </Button>
+            </div>
+            <div />
+            <div>
+              <Button
+                onClick={() => onMove({ dx: 1, dy: 0 })}
+                variant="outline"
+                size="default"
+                aria-label="Move right"
+                className="w-12 h-12"
+              >
+                ▶
+              </Button>
+            </div>
+
+            <div />
+            <div>
+              <Button
+                onClick={() => onMove({ dx: 0, dy: 1 })}
+                variant="outline"
+                size="default"
+                aria-label="Move down"
+                className="w-12 h-12"
+              >
+                ▼
+              </Button>
+            </div>
+            <div />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
