@@ -85,9 +85,9 @@ export default function GameControls({
         </Button>
       </div>
 
-      {/* Mobile D-pad: circular variant, visible only on small screens */}
+      {/* Mobile D-pad: circular variant, visible on all screen sizes */}
       {onMove && (
-        <div className="sm:hidden mt-4">
+        <div className="mt-4">
           <svg width="144" height="144" viewBox="0 0 144 144" xmlns="http://www.w3.org/2000/svg">
             {/* big outer circle */}
             <circle cx="72" cy="72" r="64" fill="#f3f4f6" stroke="#e5e7eb" strokeWidth="2" />
