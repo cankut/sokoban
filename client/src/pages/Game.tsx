@@ -117,13 +117,14 @@ export default function Game() {
       />
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8 gap-8">
-        <GameBoard gameState={gameState} />
+        <GameBoard gameState={gameState} onMove={handleMove} />
         
         <GameControls
           onReset={resetLevel}
           onUndo={handleUndo}
           onPreviousLevel={handlePreviousLevel}
           onNextLevel={handleNextLevel}
+          onMove={handleMove}
           canUndo={history.length > 0}
           canGoPrevious={currentLevelIndex > 0}
           canGoNext={currentLevelIndex < LEVELS.length - 1}

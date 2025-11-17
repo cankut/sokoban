@@ -1,8 +1,10 @@
+import React from 'react';
 import GameCell from './GameCell';
 import { type GameState } from '@/lib/sokoban';
 
 interface GameBoardProps {
   gameState: GameState;
+  onMove?: (dir: { dx: number; dy: number }) => void;
 }
 
 export default function GameBoard({ gameState }: GameBoardProps) {
